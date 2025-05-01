@@ -1,10 +1,18 @@
 <script setup>
+import { ref, onMounted } from 'vue';
+import login from '../login_component/login.vue'
 import './inicion.css';
 import omelet from '../../assets/omelet.png';
 import semola from '../../assets/semola.png';
 import tostada from '../../assets/tostada.png';
 
-import { ref, onMounted } from 'vue';
+
+const emit = defineEmits(['login']);
+
+function btnLogin() {
+  emit('login');
+}
+
 
 const slideIndex = ref(1);
 
@@ -59,42 +67,36 @@ onMounted(() => {
   <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
     <a class="navbar-brand brand-title" href="#"><strong class="titulo">Chefsito</strong></a>
     <div class="button-group">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" @click="btnLogin">Login</button>
       <button id="btn-r" class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign in</button>
     </div>
   </nav>
-  <div class="titulo-slider">
-    <h5>Nuevas recetas</h5>
-  </div>
   <!-- Slideshow container -->
   <div class="slideshow-container" >
 
     <!-- Full-width images with number and caption text -->
     <div class="mySlides fade">
-      <div class="numbertext">1 / 3</div>
       <img :src="omelet" style="width:100%">
+      <div class="text"><h2>Omelette campestre</h2></div>
       <div class="short-descripcion">
         <p>A la hora del desayuno, una receta fácil siempre es bienvenida; pues en las mañanas queremos hacer las cosas rápidas para iniciar nuestras actividades. Por lo que, un omelette campestre es una gran opción y se ha hecho parte de la comida mexicana. </p>
       </div> 
-      <div class="text"><h3>Omelette campestre</h3></div>
     </div>
 
     <div class="mySlides fade">
-      <div class="numbertext">2 / 3</div>
       <img :src="semola" style="width:100%">
+      <div class="text"><h2>Sémola con queso cheddar y ajo más huevo frito</h2></div>
       <div class="short-descripcion">
         <p> Un platillo reconfortante ideal para comenzar el día; la sémola cremosa con queso cheddar y un toque de ajo combina a la perfección con el sabor del huevo frito, creando una opción deliciosa y nutritiva para el desayuno.</p>
       </div> 
-      <div class="text"><h3>Sémola con queso cheddar y ajo más huevo frito</h3></div>
     </div>
 
     <div class="mySlides fade">
-      <div class="numbertext">3 / 3</div>
       <img :src="tostada" style="width:100%">
+      <div class="text"><h2>Tostada con aguacate y huevo escalfado</h2></div>
       <div class="short-descripcion">
         <p>Una opción ligera y fresca para empezar la mañana; la cremosidad de la palta y la suavidad del huevo escalfado sobre una tostada crujiente ofrecen una combinación deliciosa y balanceada para el desayuno.</p>
       </div>
-      <div class="text"><h3>Tostada con aguacate y huevo escalfado</h3></div>
     </div>
 
     <!-- Next and previous buttons -->
@@ -102,19 +104,11 @@ onMounted(() => {
     <a class="next" @click="plusSlides(1)">&#10095;</a>
 </div>
 <br>
-  <!-- The dots/circles -->
-  <div class="div-dot" style="text-align:center">
-    <span class="dot" @click="currentSlide(1)"></span>
-    <span class="dot" @click="currentSlide(2)"></span>
-    <span class="dot" @click="currentSlide(3)"></span>
-  </div> 
 
 <!-- Footer -->
-<footer class="text-center text-lg-start bg-body-tertiary text-muted">
+<footer id="footer" class="text-center text-lg-start bg-body-tertiary text-muted">
   <!-- Section: Social media -->
-  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
-
-    <!-- Right -->
+<!--   <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
     <div>
       <a href="" class="me-4 text-reset">
         <i class="fab fa-facebook-f"></i>
@@ -135,8 +129,7 @@ onMounted(() => {
         <i class="fab fa-github"></i>
       </a>
     </div>
-    <!-- Right -->
-  </section>
+  </section> -->
   <!-- Section: Social media -->
 
   <!-- Section: Links  -->
