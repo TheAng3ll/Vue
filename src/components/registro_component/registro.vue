@@ -1,12 +1,14 @@
 <script setup>
 	import './registro.css';
   import { ref, onMounted } from 'vue';
+  import { useRouter } from 'vue-router';
+  const router = useRouter();
 
-  const emit = defineEmits(['singin']);
-  function registrarBTN()
-  {
-    emit('registar');
-  }
+  function btnTengo() {
+    router.push('/login').then(() => {
+    window.location.reload()
+  })
+}
 </script>
 
 <template id="login-inicion">
@@ -50,12 +52,12 @@
 
   <div style=" width:500px; margin:0 auto;">
   <!-- Submit button -->
-  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" @click="registrarBTN" style=" width:500px;">Registrar</button>
+  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" style=" width:500px;">Registrar</button>
   </div>
 
   <!-- Register buttons -->
   <div class="text-center">
-    <p><a href="#!">Tengo una cuenta</a></p>
+    <p><a href="#" @click.prevent="btnTengo">Tengo una cuenta</a></p>
     <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
       <i class="fab fa-facebook-f"></i>
     </button>

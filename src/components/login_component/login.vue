@@ -1,18 +1,28 @@
 <script setup>
   import {ref} from 'vue';
 	import './login.css';
-  import registro from '../registro_component/registro.vue'
+  import { useRouter } from 'vue-router'
+  const router = useRouter()
+
+    function btnSing()
+  {
+    router.push('/registrar').then(() =>{
+      window.location.reload()
+    })
+  }
+
+  function btnEnter() {
+  router.push('/').then(() => {
+    window.location.reload()
+  })
+}
+
 
   const showR = ref(false);
-
-  function showregistrar()
-  {
-    showR.value = true;
-  }
 </script>
 
-<template id="login-inicion">
-	<div class="login-contenedor" v-if="!showR">
+<template>
+	<div class="login-contenedor">
 		<form class="form-login">
       <br>
 
@@ -46,13 +56,13 @@
 
   <div style=" width:500px; margin:0 auto;">
   <!-- Submit button -->
-  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" style=" width:500px; margin:0 auto;">Entrar</button>
+  <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-4" @click="btnEnter" style=" width:500px; margin:0 auto;">Entrar</button>
   </div>
 
   <!-- Register buttons -->
   <div class="text-center">
-    <p>No tienes cuenta? <a href="#!">Register</a></p>
-    <p> o registrate: <a href="" @click.prevent="showregistrar">Register</a></p>
+    <p>No tienes cuenta?</p>
+    <p>registrate: <a href="" @click.prevent="btnSing">Register</a></p>
     <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-link btn-floating mx-1">
       <i class="fab fa-facebook-f"></i>
     </button>
@@ -71,5 +81,4 @@
   </div>
 </form>
 	</div>
-  <registro v-if="showR"/>
 </template>

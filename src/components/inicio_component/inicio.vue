@@ -1,16 +1,23 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import login from '../login_component/login.vue'
 import './inicion.css';
 import omelet from '../../assets/omelet.png';
 import semola from '../../assets/semola.png';
 import tostada from '../../assets/tostada.png';
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
-
-const emit = defineEmits(['login']);
 
 function btnLogin() {
-  emit('login');
+    router.push('/login').then(() => {
+    window.location.reload()
+  })
+}
+function btnSing()
+{
+  router.push('/registrar').then(() =>{
+    window.location.reload()
+  })
 }
 
 
@@ -67,8 +74,8 @@ onMounted(() => {
   <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
     <a class="navbar-brand brand-title" href="#"><strong class="titulo">Chefsito</strong></a>
     <div class="button-group">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit" @click="btnLogin">Login</button>
-      <button id="btn-r" class="btn btn-outline-success my-2 my-sm-0" type="submit">Sign in</button>
+      <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="btnLogin">Login</button>
+      <button id="btn-r" class="btn btn-outline-success my-2 my-sm-0" type="button" @click="btnSing">Sign in</button>
     </div>
   </nav>
   <!-- Slideshow container -->
