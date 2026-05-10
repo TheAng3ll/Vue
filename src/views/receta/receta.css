@@ -1,0 +1,108 @@
+/* Detalle de receta — alineado con la identidad Chefsito */
+.receta-detalle-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+  padding-top: 72px;
+  padding-bottom: 40px;
+}
+
+.receta-hero {
+  max-width: 900px;
+  margin: 0 auto 24px;
+  padding: 0 20px;
+}
+
+.receta-hero-inner {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.receta-hero-img-wrap {
+  position: relative;
+  max-height: 420px;
+  overflow: hidden;
+  background: #e8f5e9;
+}
+
+.receta-hero-img {
+  width: 100%;
+  height: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
+
+.receta-hero-body {
+  padding: 24px 28px 28px;
+}
+
+.receta-hero-titulo {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 12px;
+  line-height: 1.25;
+}
+
+.receta-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.receta-hero-meta i {
+  color: #28a745;
+  margin-right: 6px;
+}
+
+.receta-ingredientes-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.receta-ingredientes-lista .ing-tag {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.receta-instrucciones {
+  margin-top: 8px;
+}
+
+.receta-instrucciones h2 {
+  font-size: 1.1rem;
+  color: #333;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.receta-instrucciones-texto {
+  white-space: pre-wrap;
+  line-height: 1.65;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+.receta-estado {
+  max-width: 640px;
+  margin: 48px auto;
+  padding: 0 20px;
+  text-align: center;
+  color: #666;
+}
+
+.receta-estado.error {
+  color: #856404;
+}
