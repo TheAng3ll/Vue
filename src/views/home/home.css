@@ -42,11 +42,161 @@
   padding: 20px;
 }
 
+.main-content--busqueda {
+  max-width: 900px;
+}
+
 /* ============================================
    GENERADOR DE RECETAS
    ============================================ */
 .generador-section {
   margin-bottom: 30px;
+}
+
+/* ============================================
+   COMBOS RÁPIDOS
+   ============================================ */
+.combos-section {
+  animation: fadeIn 0.45s ease;
+  padding-bottom: 10px;
+}
+
+.combos-header {
+  text-align: center;
+  margin-bottom: 22px;
+}
+
+.combos-titulo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 6px;
+}
+
+.combos-titulo i {
+  color: #ffc107;
+}
+
+.combos-sub {
+  font-size: 0.88rem;
+  color: #888;
+  margin: 0;
+}
+
+.combos-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.combo-card {
+  position: relative;
+  background: linear-gradient(135deg, #f8fffe 0%, #e8f5e9 100%);
+  border: 1px solid #d4edda;
+  border-radius: 18px;
+  padding: 26px 20px 20px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.28s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.combo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(40, 167, 69, 0.15);
+  border-color: #a8d5b5;
+}
+
+.combo-card:hover .combo-cta {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.combo-num {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: rgba(40, 167, 69, 0.1);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.combo-icon-wrap {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: white;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.28);
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.combo-nombre {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.combo-desc {
+  font-size: 0.82rem;
+  color: #888;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.combo-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.combo-chip {
+  background: rgba(40, 167, 69, 0.12);
+  color: #2e7d32;
+  border: 1px solid rgba(40, 167, 69, 0.25);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.combo-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #28a745;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+}
+
+@media (max-width: 600px) {
+  .combos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .combo-card {
+    padding: 20px 16px;
+  }
 }
 
 .generador-card {

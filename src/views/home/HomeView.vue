@@ -10,25 +10,6 @@ const router = useRouter();
 // Recetas de ejemplo para el feed
 const recetasFeed = ref([
   {
-    id: 1,
-    usuario: {
-      nombre: 'María Cocinera',
-      avatar: 'https://ui-avatars.com/api/?name=Maria+Cocinera&background=28a745&color=fff',
-      tiempo: 'Hace 2 horas'
-    },
-    receta: {
-      nombre: 'Enchiladas Suizas',
-      imagen: 'https://images.unsplash.com/photo-1534352956036-cd80e27cbd88?w=800',
-      descripcion: 'Deliciosas enchiladas con salsa verde casera, pollo desmenuzado y queso gratinado. Perfectas para la comida del domingo.',
-      ingredientes: ['tortillas', 'pollo', 'salsa verde', 'queso', 'crema', 'cebolla'],
-      tiempo: '45 min',
-      porciones: 4,
-      likes: 128,
-      comentarios: 24,
-      compartidos: 12
-    }
-  },
-  {
     id: 2,
     usuario: {
       nombre: 'Chef Carlos',
@@ -64,25 +45,6 @@ const recetasFeed = ref([
       likes: 89,
       comentarios: 15,
       compartidos: 8
-    }
-  },
-  {
-    id: 4,
-    usuario: {
-      nombre: 'Doña Rosa',
-      avatar: 'https://ui-avatars.com/api/?name=Doña+Rosa&background=dc3545&color=fff',
-      tiempo: 'Ayer'
-    },
-    receta: {
-      nombre: 'Mole Poblano',
-      imagen: 'https://images.unsplash.com/photo-1613514785944-b89d62917e7b?w=800',
-      descripcion: 'Receta tradicional de mole poblano con más de 20 ingredientes. Un platillo festivo que honra nuestras raíces.',
-      ingredientes: ['chile mulato', 'chile pasilla', 'chocolate', 'tomate', 'plátano', 'tortilla'],
-      tiempo: '4 hrs',
-      porciones: 8,
-      likes: 432,
-      comentarios: 89,
-      compartidos: 156
     }
   },
   {

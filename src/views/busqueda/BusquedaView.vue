@@ -26,8 +26,8 @@ function volverInicio() {
       </div>
     </nav>
 
-    <div class="main-content">
-      <GeneradorIngredientes />
+    <div class="main-content main-content--busqueda">
+      <GeneradorIngredientes :mostrar-combos="true" />
     </div>
 
     <FooterComponent />

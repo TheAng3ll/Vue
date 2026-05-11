@@ -150,6 +150,7 @@
   transition: all 0.3s ease;
   background: #fafafa;
   box-sizing: border-box;
+  color: #000;
 }
 
 .form-input:focus {

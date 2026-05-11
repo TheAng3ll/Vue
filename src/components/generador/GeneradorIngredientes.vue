@@ -4,6 +4,33 @@ import { useRouter } from 'vue-router';
 import { buscarRecetas } from '../../api/recetas.js';
 import { INGREDIENTES_COMUNES } from '../../data/ingredientesComunes.js';
 
+const COMBOS = [
+  {
+    icono: 'fas fa-sun',
+    nombre: 'Desayuno clásico',
+    descripcion: 'Rápido, nutritivo y fácil de preparar.',
+    ingredientes: ['huevo', 'pan', 'mantequilla', 'leche'],
+  },
+  {
+    icono: 'fas fa-drumstick-bite',
+    nombre: 'Proteico express',
+    descripcion: 'Alto en proteínas para rendir todo el día.',
+    ingredientes: ['pollo', 'arroz', 'brócoli', 'ajo'],
+  },
+  {
+    icono: 'fas fa-leaf',
+    nombre: 'Ensalada fresca',
+    descripcion: 'Ligero, colorido y lleno de vitaminas.',
+    ingredientes: ['lechuga', 'tomate', 'pepino', 'limón'],
+  },
+  {
+    icono: 'fas fa-cheese',
+    nombre: 'Pasta italiana',
+    descripcion: 'Cremosa y reconfortante en pocos pasos.',
+    ingredientes: ['pasta', 'tomate', 'ajo', 'queso'],
+  },
+];
+
 const props = defineProps({
   titulo: {
     type: String,
@@ -13,6 +40,10 @@ const props = defineProps({
     type: String,
     default:
       'Escribe un ingrediente y pulsa Enter o el botón +. Luego genera las mejores coincidencias desde la API GraphQL.',
+  },
+  mostrarCombos: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -100,6 +131,11 @@ function irADetalle(id) {
 function seleccionarSugerencia(ing) {
   inputIngrediente.value = ing;
   agregarIngrediente();
+}
+
+function cargarCombo(combo) {
+  ingredientesChips.value = [...combo.ingredientes];
+  inputIngrediente.value = '';
 }
 </script>
 
@@ -196,56 +232,95 @@ function seleccionarSugerencia(ing) {
     </div>
   </section>
 
-  <section v-if="resultados.length" class="resultados-section">
-    <h4 class="resultados-titulo">
-      <i class="fas fa-utensils"></i> Mejores coincidencias
-    </h4>
-    <div class="recetas-grid">
-      <article
-        v-for="r in resultados"
-        :key="r.id"
-        class="receta-card"
-        role="button"
-        tabindex="0"
-        @click="irADetalle(r.id)"
-        @keydown.enter="irADetalle(r.id)"
-      >
-        <div class="receta-imagen-container">
-          <img
-            class="receta-imagen"
-            :src="r.imagen || PLACEHOLDER_IMG"
-            :alt="r.nombre"
-            loading="lazy"
-          />
-          <span v-if="r.matchPorcentaje != null" class="match-badge">
-            {{ Math.round(r.matchPorcentaje) }}% match
-          </span>
-        </div>
-        <div class="receta-info">
-          <h5 class="receta-nombre">{{ r.nombre }}</h5>
-          <p class="receta-descripcion">{{ r.descripcion || 'Sin descripción.' }}</p>
-          <div class="receta-meta">
-            <span v-if="r.tiempo_prep != null">
-              <i class="fas fa-clock"></i> {{ r.tiempo_prep }} min
-            </span>
-            <span v-if="r.porciones != null">
-              <i class="fas fa-users"></i> {{ r.porciones }} porc.
+  <template v-if="resultados.length">
+    <section class="resultados-section">
+      <h4 class="resultados-titulo">
+        <i class="fas fa-utensils"></i> Mejores coincidencias
+      </h4>
+      <div class="recetas-grid">
+        <article
+          v-for="r in resultados"
+          :key="r.id"
+          class="receta-card"
+          role="button"
+          tabindex="0"
+          @click="irADetalle(r.id)"
+          @keydown.enter="irADetalle(r.id)"
+        >
+          <div class="receta-imagen-container">
+            <img
+              class="receta-imagen"
+              :src="r.imagen || PLACEHOLDER_IMG"
+              :alt="r.nombre"
+              loading="lazy"
+            />
+            <span v-if="r.matchPorcentaje != null" class="match-badge">
+              {{ Math.round(r.matchPorcentaje) }}% match
             </span>
           </div>
-          <div class="receta-ingredientes">
-            <span
-              v-for="(ing, i) in (r.ingredientes || []).slice(0, 4)"
-              :key="i"
-              class="ing-tag"
-            >
+          <div class="receta-info">
+            <h5 class="receta-nombre">{{ r.nombre }}</h5>
+            <p class="receta-descripcion">{{ r.descripcion || 'Sin descripción.' }}</p>
+            <div class="receta-meta">
+              <span v-if="r.tiempo_prep != null">
+                <i class="fas fa-clock"></i> {{ r.tiempo_prep }} min
+              </span>
+              <span v-if="r.porciones != null">
+                <i class="fas fa-users"></i> {{ r.porciones }} porc.
+              </span>
+            </div>
+            <div class="receta-ingredientes">
+              <span
+                v-for="(ing, i) in (r.ingredientes || []).slice(0, 4)"
+                :key="i"
+                class="ing-tag"
+              >
+                {{ ing }}
+              </span>
+              <span v-if="(r.ingredientes || []).length > 4" class="ing-tag more">
+                +{{ (r.ingredientes || []).length - 4 }}
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </template>
+
+  <template v-else-if="props.mostrarCombos">
+    <section class="combos-section">
+      <div class="combos-header">
+        <h4 class="combos-titulo">
+          <i class="fas fa-lightbulb"></i> ¿Sin ideas? Prueba un combo
+        </h4>
+        <p class="combos-sub">
+          Haz clic en una tarjeta y cargamos los ingredientes por ti
+        </p>
+      </div>
+      <div class="combos-grid">
+        <button
+          v-for="(combo, idx) in COMBOS"
+          :key="combo.nombre"
+          type="button"
+          class="combo-card"
+          @click="cargarCombo(combo)"
+        >
+          <span class="combo-num">0{{ idx + 1 }}</span>
+          <div class="combo-icon-wrap">
+            <i :class="combo.icono"></i>
+          </div>
+          <h5 class="combo-nombre">{{ combo.nombre }}</h5>
+          <p class="combo-desc">{{ combo.descripcion }}</p>
+          <div class="combo-chips">
+            <span v-for="ing in combo.ingredientes" :key="ing" class="combo-chip">
               {{ ing }}
             </span>
-            <span v-if="(r.ingredientes || []).length > 4" class="ing-tag more">
-              +{{ (r.ingredientes || []).length - 4 }}
-            </span>
           </div>
-        </div>
-      </article>
-    </div>
-  </section>
+          <span class="combo-cta">
+            Probar <i class="fas fa-arrow-right"></i>
+          </span>
+        </button>
+      </div>
+    </section>
+  </template>
 </template>
