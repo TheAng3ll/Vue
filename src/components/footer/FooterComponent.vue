@@ -1,0 +1,56 @@
+<script setup>
+// Componente Footer reutilizable
+// No necesita lógica por ahora, es puramente presentacional
+</script>
+
+<template>
+  <footer id="footer" class="text-center text-lg-start bg-body-tertiary text-muted">
+    <!-- Section: Links -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <div class="row mt-3">
+          <!-- Grid column: About -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="fas fa-gem me-3"></i>Chefsito
+            </h6>
+            <p>
+              Este es un proyecto en Vue donde busco aplicar mis conocimientos y mejorar mi entendimiento
+            </p>
+          </div>
+
+          <!-- Grid column: Links -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">Useful links</h6>
+            <p><a href="#!" class="text-reset">Pricing</a></p>
+            <p><a href="#!" class="text-reset">Settings</a></p>
+            <p><a href="#!" class="text-reset">Orders</a></p>
+            <p><a href="#!" class="text-reset">Help</a></p>
+          </div>
+
+          <!-- Grid column: Contact -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+            <p><i class="fas fa-home me-3"></i> New York, NY 10012, US</p>
+            <p><i class="fas fa-envelope me-3"></i> info@example.com</p>
+            <p><i class="fas fa-phone me-3"></i> + 01 234 567 88</p>
+            <p><i class="fas fa-print me-3"></i> + 01 234 567 89</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+      © 2021 Copyright:
+      <a class="text-reset fw-bold" href="https://mdbootstrap.com/">Chefsito.99mas1.com</a>
+    </div>
+  </footer>
+</template>
+
+<style scoped>
+#footer
+{
+  padding-top: 5%;
+}
+</style>

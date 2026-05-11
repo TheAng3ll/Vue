@@ -1,0 +1,249 @@
+/* ============================================
+   CHEFSITO - DARK MODE OVERRIDES
+   Aplica cuando Vuetify agrega .v-theme--dark al v-app
+   ============================================ */
+
+/* ── Fondos de página ─────────────────────── */
+.v-theme--dark .inicio-page,
+.v-theme--dark .auth-page,
+.v-theme--dark .home-container {
+  background: linear-gradient(135deg, #121212 0%, #1a2a1a 100%);
+}
+
+/* ── Navbars ──────────────────────────────── */
+.v-theme--dark .inicio-navbar,
+.v-theme--dark .auth-navbar {
+  background: #1e1e1e;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Cards principales ────────────────────── */
+.v-theme--dark .auth-card,
+.v-theme--dark .generador-card,
+.v-theme--dark .slider-card,
+.v-theme--dark .receta-card,
+.v-theme--dark .post-card {
+  background: #2d2d2d;
+  border-color: #3a3a3a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Sección features ─────────────────────── */
+.v-theme--dark .features {
+  background: #1a1a1a;
+}
+
+.v-theme--dark .feature-card {
+  background: linear-gradient(135deg, #1e2e1e 0%, #1a2a1a 100%);
+  border-color: #2e4a2e;
+}
+
+.v-theme--dark .feature-card h3 {
+  color: #66bb6a;
+}
+
+.v-theme--dark .feature-card p,
+.v-theme--dark .features-inner h2 {
+  color: #ccc;
+}
+
+.v-theme--dark .features-sub {
+  color: #888;
+}
+
+/* ── Textos ───────────────────────────────── */
+.v-theme--dark .hero-titulo,
+.v-theme--dark .slider-nombre,
+.v-theme--dark .auth-header h2,
+.v-theme--dark .generador-titulo,
+.v-theme--dark .features-inner h2 {
+  color: #f0f0f0;
+}
+
+.v-theme--dark .hero-subtitulo,
+.v-theme--dark .slider-desc,
+.v-theme--dark .slider-meta,
+.v-theme--dark .auth-header p,
+.v-theme--dark .generador-subtitulo,
+.v-theme--dark .form-field label,
+.v-theme--dark .checkbox-label,
+.v-theme--dark .auth-footer p {
+  color: #aaa;
+}
+
+.v-theme--dark .stat-label {
+  color: #777;
+}
+
+/* ── Inputs ───────────────────────────────── */
+.v-theme--dark .form-input,
+.v-theme--dark .autocomplete-input {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #e0e0e0;
+}
+
+.v-theme--dark .form-input:focus {
+  background: #333;
+  border-color: #66bb6a;
+}
+
+.v-theme--dark .form-input::placeholder,
+.v-theme--dark .autocomplete-input::placeholder {
+  color: #666;
+}
+
+.v-theme--dark .autocomplete-input-group {
+  background: #2a2a2a;
+  border-color: #444;
+}
+
+.v-theme--dark .autocomplete-input-group:focus-within {
+  background: #333;
+  border-color: #66bb6a;
+}
+
+/* ── Lista de sugerencias ─────────────────── */
+.v-theme--dark .sugerencias-lista {
+  background: #2d2d2d;
+  border-color: #444;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.v-theme--dark .sugerencia-item {
+  border-bottom-color: #3a3a3a;
+  color: #ccc;
+}
+
+.v-theme--dark .sugerencia-item:hover {
+  background: #1e2e1e;
+}
+
+/* ── Botones secundarios / outline ───────── */
+.v-theme--dark .btn-hero-secondary,
+.v-theme--dark .btn-nav-outline {
+  background: transparent;
+  color: #aaa;
+  border-color: #555;
+}
+
+.v-theme--dark .btn-hero-secondary:hover,
+.v-theme--dark .btn-nav-outline:hover {
+  border-color: #66bb6a;
+  color: #66bb6a;
+  background: rgba(102, 187, 106, 0.08);
+}
+
+/* ── Botones sociales ─────────────────────── */
+.v-theme--dark .btn-social {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #ccc;
+}
+
+.v-theme--dark .btn-social.github {
+  color: #ccc;
+}
+
+.v-theme--dark .btn-social.github:hover {
+  background: #3a3a3a;
+  border-color: #888;
+}
+
+/* ── Slider controles ─────────────────────── */
+.v-theme--dark .slider-controls {
+  border-top-color: #3a3a3a;
+}
+
+.v-theme--dark .slider-arrow {
+  background: #2d2d2d;
+  border-color: #444;
+  color: #aaa;
+}
+
+.v-theme--dark .slider-arrow:hover {
+  border-color: #66bb6a;
+  color: #66bb6a;
+}
+
+.v-theme--dark .slider-dot {
+  background: #555;
+}
+
+/* ── Tarjetas flotantes ───────────────────── */
+.v-theme--dark .float-card {
+  background: #2d2d2d;
+  color: #ddd;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Dividers / separadores ──────────────── */
+.v-theme--dark .stat-divider {
+  background: #444;
+}
+
+.v-theme--dark .auth-divider {
+  color: #666;
+}
+
+.v-theme--dark .auth-divider::before,
+.v-theme--dark .auth-divider::after {
+  border-bottom-color: #3a3a3a;
+}
+
+.v-theme--dark .auth-footer {
+  border-top-color: #3a3a3a;
+}
+
+/* ── Checkmarks ───────────────────────────── */
+.v-theme--dark .checkmark {
+  border-color: #555;
+  background: #2a2a2a;
+}
+
+/* ── Hero badge ───────────────────────────── */
+.v-theme--dark .hero-badge {
+  background: #1e2e1e;
+  border-color: #2e4a2e;
+  color: #66bb6a;
+}
+
+/* ── Post cards (feed home) ───────────────── */
+.v-theme--dark .post-header,
+.v-theme--dark .post-footer,
+.v-theme--dark .post-actions {
+  border-color: #3a3a3a;
+}
+
+.v-theme--dark .post-username {
+  color: #e0e0e0;
+}
+
+.v-theme--dark .post-time,
+.v-theme--dark .post-text,
+.v-theme--dark .post-desc {
+  color: #aaa;
+}
+
+.v-theme--dark .action-btn {
+  color: #888;
+}
+
+.v-theme--dark .action-btn:hover {
+  color: #66bb6a;
+  background: rgba(102, 187, 106, 0.08);
+}
+
+/* ── Resultados de búsqueda ───────────────── */
+.v-theme--dark .resultado-card {
+  background: #2d2d2d;
+  border-color: #3a3a3a;
+}
+
+.v-theme--dark .resultado-nombre {
+  color: #f0f0f0;
+}
+
+.v-theme--dark .resultado-desc {
+  color: #aaa;
+}
