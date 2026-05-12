@@ -1,6 +1,10 @@
 /**
  * Lista amplia de ingredientes comunes (ES) para autocomplete del generador.
- * Unión de categorías; deduplicada y ordenada alfabéticamente.
+ * Unión de categorías + términos alineados al catálogo sembrado (recetas elaboradas);
+ * deduplicada y ordenada alfabéticamente.
+ *
+ * La búsqueda en API (`buscarRecetas`) acepta prefijos en límite de palabra respecto a
+ * los nombres en BD: p. ej. el chip "calabaza" cuenta para el ingrediente "calabaza asada".
  */
 const verduras = [
   'acelga', 'ajo', 'alcachofa', 'apio', 'berenjena', 'boniato', 'broccoli',
@@ -81,7 +85,34 @@ const misc = [
   'levadura fresca', 'levadura química', 'levadura seca', 'palitos',
   'pasas', 'pasas de corinto', 'pellets', 'pipoca', 'sal marina fina',
   'sirope', 'tahini', 'tapioca', 'té', 'tofu', 'tofu firme',
-  'tofu sedoso',   'vino blanco', 'vino de arroz', 'vino tinto',
+  'tofu sedoso', 'vino blanco', 'vino de arroz', 'vino tinto',
+];
+
+/**
+ * Principales y aliños que aparecen como filas en `receta_ingredientes` del seed
+ * `seed-recetas-elaboradas` (scripts/recipe-elaboradas-data.mjs). Mantener alineado al sembrar.
+ */
+const catalogoRecetasElaboradas = [
+  // Proteínas / vegetales principales (nombre en BD)
+  'bacalao desalado', 'lubina', 'merluza negra', 'pulpo', 'calamar', 'vieiras', 'langostinos',
+  'cangrejo real', 'bogavante', 'mejillones', 'almejas finas', 'pato magret', 'pollo de corral',
+  'conejo',
+  'ternera retinta', 'solomillo', 'costillar de cerdo ibérico', 'cordero lechal',
+  'ciervo', 'buey madurado', 'foie gras', 'rinones', 'mollejas', 'rabo de toro',
+  'carrillera',   'setas porcini', 'trufa negra', 'alcachofas', 'espárragos trigueros', 'cardo',
+  'berenjenas', 'calabaza asada', 'coliflor', 'col romanesco', 'boniatos', 'yuca', 'quinoa roja',
+  'lentejas caviar', 'garbanzos pedrosillano', 'arroz bomba', 'fregola',
+  'tofu ahumado', 'tempeh', 'seitán', 'plátano macho',
+  // Hierbas / ácidos / licores / especias (variantes en recetas)
+  'perejil liso', 'limón confitado', 'lima kaffir', 'vinagre de jerez',
+  'pomelo rosado', 'naranja sanguina', 'yuzu', 'verjus', 'uva moscatel',
+  'oloroso', 'amontillado', 'pedro ximénez', 'oporto rubí', 'madeira', 'marsala',
+  'noilly prat', 'cointreau', 'calvados', 'armagnac', 'brandy de jerez', 'vermut rojo',
+  'azafrán en hebra', 'pimentón de la vera dulce', 'pasta de miso blanco',
+  'curry madrás suave', 'zaatar tostado', 'shichimi togarashi',
+  // Filas fijas del seed (nombres en tabla ingredientes)
+  'aceite de oliva v.e.', 'chalota', 'vino blanco seco', 'miel de caña', 'caldo colado',
+  'nata para cocinar', 'yema de huevo', 'guarnicion temporada', 'harina 00',
 ];
 
 export const INGREDIENTES_COMUNES = [...new Set([
@@ -93,4 +124,5 @@ export const INGREDIENTES_COMUNES = [...new Set([
   ...granosLegumbres,
   ...condimentos,
   ...misc,
+  ...catalogoRecetasElaboradas,
 ])].sort((a, b) => a.localeCompare('es'));

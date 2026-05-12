@@ -1,9 +1,6 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import './inicio.css';
-import omelet from '../../assets/omelet.png';
-import semola from '../../assets/semola.png';
-import tostada from '../../assets/tostada.png';
 import FooterComponent from '../../components/footer/FooterComponent.vue';
 import { useRouter } from 'vue-router';
 
@@ -20,30 +17,34 @@ function irBusqueda() {
   router.push('/busqueda');
 }
 
+/** Imágenes vía Unsplash (fotografía real; misma línea que seed.sql del backend). */
+const IMG = (id, w = 900) =>
+  `https://images.unsplash.com/${id}?w=${w}&q=80&auto=format&fit=crop`;
+
 const recetas = [
   {
-    img: omelet,
-    nombre: 'Omelette Campestre',
-    descripcion: 'Rápido, fácil y lleno de sabor para empezar el día.',
-    tiempo: '10 min',
-    porciones: 1,
-    tag: 'Desayuno'
-  },
-  {
-    img: semola,
-    nombre: 'Sémola con Queso Cheddar',
-    descripcion: 'Cremosa, reconfortante y con el toque perfecto de ajo.',
-    tiempo: '20 min',
+    img: IMG('photo-1510693206972-df098062cb71'),
+    nombre: 'Omelette de queso y tomate',
+    descripcion: 'Clásico de desayuno: huevos esponjosos con tomate fresco y queso derretido.',
+    tiempo: '15 min',
     porciones: 2,
     tag: 'Desayuno'
   },
   {
-    img: tostada,
-    nombre: 'Tostada con Aguacate',
-    descripcion: 'Ligera, fresca y balanceada. El favorito saludable.',
-    tiempo: '5 min',
-    porciones: 1,
-    tag: 'Snack'
+    img: IMG('photo-1621996346565-e3dbc646d9a9'),
+    nombre: 'Pasta cremosa de espinaca',
+    descripcion: 'Salsa sedosa, espinacas y un toque de ajo. Plato reconfortante en pocos pasos.',
+    tiempo: '25 min',
+    porciones: 4,
+    tag: 'Comida'
+  },
+  {
+    img: IMG('photo-1562967914-608f82629710'),
+    nombre: 'Hotcakes de avena y plátano',
+    descripcion: 'Dulces, esponjosos y con buena energía. Ideales para un brunch en casa.',
+    tiempo: '20 min',
+    porciones: 3,
+    tag: 'Brunch'
   }
 ];
 
@@ -145,7 +146,7 @@ onUnmounted(() => clearInterval(timer));
               <p class="slider-desc">{{ recetas[current].descripcion }}</p>
               <div class="slider-meta">
                 <span><i class="fas fa-clock"></i> {{ recetas[current].tiempo }}</span>
-                <span><i class="fas fa-user"></i> {{ recetas[current].porciones }} porción</span>
+                <span><i class="fas fa-user"></i> {{ recetas[current].porciones }} {{ recetas[current].porciones === 1 ? 'porción' : 'porciones' }}</span>
               </div>
             </div>
           </transition>
