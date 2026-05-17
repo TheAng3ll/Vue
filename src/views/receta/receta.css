@@ -68,6 +68,53 @@
   margin-bottom: 20px;
 }
 
+.receta-secretos {
+  margin-bottom: 22px;
+}
+
+.receta-secretos-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2e7d32;
+  margin: 0 0 12px;
+}
+
+.receta-secretos-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  color: #2e7d32;
+  font-size: 1rem;
+}
+
+.receta-secretos-inner {
+  background: linear-gradient(160deg, #fafdfb 0%, #f3faf4 100%);
+  border: 1px solid #d4ead8;
+  border-left: 4px solid #28a745;
+  border-radius: 14px;
+  padding: 18px 20px 16px;
+  box-shadow: 0 2px 12px rgba(46, 125, 50, 0.06);
+}
+
+.receta-secretos-parrafo {
+  margin: 0 0 14px;
+  line-height: 1.7;
+  color: #3d4a40;
+  font-size: 0.98rem;
+  white-space: pre-line;
+}
+
+.receta-secretos-parrafo:last-child {
+  margin-bottom: 0;
+}
+
 .receta-ingredientes-lista .ing-tag {
   background: #e8f5e9;
   color: #2e7d32;
@@ -93,6 +140,62 @@
   line-height: 1.65;
   color: #444;
   font-size: 0.98rem;
+}
+
+.receta-pasos-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.receta-paso-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eef2f0;
+}
+
+.receta-paso-item:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.receta-paso-badge {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #28a745 0%, #2e7d32 100%);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(46, 125, 50, 0.25);
+}
+
+.receta-paso-texto {
+  margin: 0;
+  flex: 1;
+  line-height: 1.65;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 .receta-estado {

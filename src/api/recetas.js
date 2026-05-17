@@ -7,6 +7,7 @@ const BUSCAR_RECETAS = `
       nombre
       descripcion
       ingredientes
+      ingredientesMostrar
       matchPorcentaje
       tiempo_prep
       porciones
@@ -21,8 +22,10 @@ const RECETA_DETALLE = `
       id
       nombre
       descripcion
+      consejos
       instrucciones
       ingredientes
+      ingredientesMostrar
       matchPorcentaje
       tiempo_prep
       porciones
