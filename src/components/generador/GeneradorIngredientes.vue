@@ -58,6 +58,13 @@ const errorMsg = ref(null);
 const PLACEHOLDER_IMG =
   'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80';
 
+/** Etiquetas para tarjetas: API devuelve `ingredientesMostrar` (descripcion o nombre); fallback a nombres. */
+function etiquetasReceta(r) {
+  const mostrar = r.ingredientesMostrar ?? r.ingredientes_mostrar;
+  if (Array.isArray(mostrar) && mostrar.length) return mostrar;
+  return r.ingredientes ?? [];
+}
+
 const sugerenciasFiltradas = computed(() => {
   const q = inputIngrediente.value.trim().toLowerCase();
   if (q.length < 1) return [];
@@ -271,14 +278,14 @@ function cargarCombo(combo) {
             </div>
             <div class="receta-ingredientes">
               <span
-                v-for="(ing, i) in (r.ingredientes || []).slice(0, 4)"
+                v-for="(ing, i) in etiquetasReceta(r).slice(0, 4)"
                 :key="i"
                 class="ing-tag"
               >
                 {{ ing }}
               </span>
-              <span v-if="(r.ingredientes || []).length > 4" class="ing-tag more">
-                +{{ (r.ingredientes || []).length - 4 }}
+              <span v-if="etiquetasReceta(r).length > 4" class="ing-tag more">
+                +{{ etiquetasReceta(r).length - 4 }}
               </span>
             </div>
           </div>

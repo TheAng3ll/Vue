@@ -96,6 +96,10 @@ function btnLogout() {
 function irBusqueda() {
   router.push('/busqueda')
 }
+
+function irPerfil() {
+  router.push('/perfil')
+}
 </script>
 
 <template>
@@ -109,6 +113,9 @@ function irBusqueda() {
         <div class="button-group">
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="irBusqueda">
             <i class="fas fa-search"></i> Buscar recetas
+          </button>
+          <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="irPerfil">
+            <i class="fas fa-user"></i> Mi perfil
           </button>
           <button class="btn btn-outline-secondary my-2 my-sm-0" type="button" @click="btnLogout">
             <i class="fas fa-sign-out-alt"></i> Logout

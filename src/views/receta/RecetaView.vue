@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { obtenerReceta } from '../../api/recetas.js';
 import './receta.css';
@@ -58,6 +58,46 @@ function volverBusqueda() {
 function volverInicio() {
   router.push('/');
 }
+
+function etiquetasIngredientes(rec) {
+  const mostrar = rec.ingredientesMostrar ?? rec.ingredientes_mostrar;
+  if (Array.isArray(mostrar) && mostrar.length) return mostrar;
+  return rec.ingredientes ?? [];
+}
+
+/**
+ * Instrucciones tipo "1: … 2: …" (separadas por espacio/salto antes del siguiente número).
+ * Si algún tramo no encaja en `N: texto`, se devuelve null y la vista usa texto plano.
+ */
+function parsePasosInstrucciones(text) {
+  if (!text || typeof text !== 'string') return null;
+  const t = text.trim();
+  if (!t) return null;
+  const segmentos = t.split(/\s+(?=\d+\s*:)/).map((s) => s.trim()).filter(Boolean);
+  const pasos = [];
+  for (const seg of segmentos) {
+    const m = seg.match(/^(\d+)\s*:\s*(.*)$/s);
+    if (!m) return null;
+    pasos.push({ numero: Number(m[1]), texto: m[2].trim() });
+  }
+  return pasos.length ? pasos : null;
+}
+
+const pasosInstrucciones = computed(() => {
+  if (!receta.value?.instrucciones) return null;
+  return parsePasosInstrucciones(receta.value.instrucciones);
+});
+
+/** Párrafos del campo `consejos` (bloques separados por una o más líneas en blanco). */
+const bloquesConsejos = computed(() => {
+  const t = receta.value?.consejos;
+  if (!t || typeof t !== 'string') return [];
+  return t
+    .trim()
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+});
 </script>
 
 <template>
@@ -111,13 +151,47 @@ function volverInicio() {
             </div>
             <p v-if="receta.descripcion" class="text-muted mb-3">{{ receta.descripcion }}</p>
 
-            <div v-if="receta.ingredientes?.length" class="receta-ingredientes-lista">
-              <span v-for="(ing, i) in receta.ingredientes" :key="i" class="ing-tag">{{ ing }}</span>
+            <section
+              v-if="bloquesConsejos.length"
+              class="receta-secretos"
+              aria-labelledby="receta-secretos-heading"
+            >
+              <h2 id="receta-secretos-heading" class="receta-secretos-titulo">
+                <span class="receta-secretos-icon" aria-hidden="true">
+                  <i class="fas fa-lightbulb"></i>
+                </span>
+                Secretos del Chef
+              </h2>
+              <div class="receta-secretos-inner">
+                <p
+                  v-for="(bloque, i) in bloquesConsejos"
+                  :key="i"
+                  class="receta-secretos-parrafo"
+                >
+                  {{ bloque }}
+                </p>
+              </div>
+            </section>
+
+            <div v-if="etiquetasIngredientes(receta).length" class="receta-ingredientes-lista">
+              <span v-for="(ing, i) in etiquetasIngredientes(receta)" :key="i" class="ing-tag">{{ ing }}</span>
             </div>
 
             <div class="receta-instrucciones">
               <h2><i class="fas fa-list-ol text-success"></i> Preparación</h2>
-              <div class="receta-instrucciones-texto">
+              <ul v-if="pasosInstrucciones" class="receta-pasos-lista" role="list">
+                <li
+                  v-for="(paso, i) in pasosInstrucciones"
+                  :key="`${paso.numero}-${i}`"
+                  class="receta-paso-item"
+                >
+                  <span class="receta-paso-badge" aria-hidden="true">{{ paso.numero }}</span>
+                  <p class="receta-paso-texto">
+                    <span class="visually-hidden">Paso {{ paso.numero }}. </span>{{ paso.texto }}
+                  </p>
+                </li>
+              </ul>
+              <div v-else class="receta-instrucciones-texto">
                 {{ receta.instrucciones || 'Sin instrucciones registradas.' }}
               </div>
             </div>
