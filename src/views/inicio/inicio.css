@@ -1,0 +1,559 @@
+/* ============================================
+   CHEFSITO - INICIO / LANDING PAGE
+   Consistente con Home, Login y Registro
+   ============================================ */
+
+* { box-sizing: border-box; }
+
+.inicio-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.inicio-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: white;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #2e7d32;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.brand-link i { color: #28a745; }
+
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-nav-outline {
+  padding: 9px 22px;
+  border-radius: 10px;
+  border: 2px solid #28a745;
+  background: transparent;
+  color: #28a745;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.btn-nav-outline:hover {
+  background: #e8f5e9;
+}
+
+.btn-nav-solid {
+  padding: 9px 22px;
+  border-radius: 10px;
+  border: 2px solid #28a745;
+  background: linear-gradient(135deg, #28a745, #2e7d32);
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.btn-nav-solid:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(40, 167, 69, 0.4);
+}
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 70px 40px;
+  width: 100%;
+}
+
+/* ----- Texto izquierdo ----- */
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.hero-titulo {
+  font-size: 2.7rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.15;
+  letter-spacing: -1px;
+  margin: 0;
+}
+
+.hero-subtitulo {
+  font-size: 1.05rem;
+  color: #666;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 440px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #28a745, #2e7d32);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(40, 167, 69, 0.35);
+}
+
+.btn-hero-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(40, 167, 69, 0.45);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  color: #555;
+  border: 2px solid #e0e0e0;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-hero-secondary:hover {
+  border-color: #28a745;
+  color: #28a745;
+  transform: translateY(-2px);
+}
+
+/* Stats */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 8px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #28a745;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #999;
+  font-weight: 500;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 36px;
+  background: #ddd;
+}
+
+/* ----- Slider derecho ----- */
+.hero-slider {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.slider-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 100%;
+  max-width: 420px;
+  animation: slideUp 0.6s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.slider-img-wrapper {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.slider-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slider-tag {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(40, 167, 69, 0.9);
+  color: white;
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.slider-info {
+  padding: 20px 22px 10px;
+}
+
+.slider-nombre {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 6px;
+}
+
+.slider-desc {
+  font-size: 0.88rem;
+  color: #888;
+  margin: 0 0 14px;
+  line-height: 1.5;
+}
+
+.slider-meta {
+  display: flex;
+  gap: 18px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.slider-meta i {
+  color: #28a745;
+  margin-right: 5px;
+}
+
+/* Controles del slider */
+.slider-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px 18px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.slider-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #e0e0e0;
+  background: white;
+  color: #555;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.slider-arrow:hover {
+  border-color: #28a745;
+  color: #28a745;
+  transform: scale(1.08);
+}
+
+.slider-dots {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.slider-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s ease;
+}
+
+.slider-dot.active {
+  background: #28a745;
+  width: 22px;
+  border-radius: 4px;
+}
+
+/* Tarjetas flotantes */
+.float-card {
+  position: absolute;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: #333;
+  white-space: nowrap;
+  animation: floatBob 3s ease-in-out infinite;
+}
+
+.float-card i {
+  color: #28a745;
+  font-size: 1rem;
+}
+
+.float-top {
+  top: 30px;
+  right: -30px;
+  animation-delay: 0s;
+}
+
+.float-bottom {
+  bottom: 60px;
+  right: -24px;
+  animation-delay: 1.5s;
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Transición de recetas */
+.recipe-fade-enter-active,
+.recipe-fade-leave-active {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.recipe-fade-enter-from {
+  opacity: 0;
+  transform: translateX(20px);
+}
+.recipe-fade-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* ============================================
+   FEATURES
+   ============================================ */
+.features {
+  padding: 80px 20px;
+  background: white;
+}
+
+.features-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.features-inner h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+}
+
+.features-sub {
+  color: #888;
+  font-size: 1rem;
+  margin-bottom: 50px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: linear-gradient(135deg, #f8fffe 0%, #e8f5e9 100%);
+  border: 1px solid #d4edda;
+  border-radius: 18px;
+  padding: 36px 24px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(40, 167, 69, 0.12);
+}
+
+.feature-num {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: rgba(40, 167, 69, 0.1);
+  line-height: 1;
+}
+
+.feature-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  margin: 0 auto 18px;
+  box-shadow: 0 4px 14px rgba(40, 167, 69, 0.3);
+}
+
+.feature-card h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 50px 24px;
+    text-align: center;
+  }
+
+  .hero-text {
+    align-items: center;
+  }
+
+  .hero-subtitulo {
+    max-width: 100%;
+  }
+
+  .hero-slider {
+    justify-content: center;
+  }
+
+  .float-top,
+  .float-bottom {
+    display: none;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .inicio-navbar {
+    padding: 14px 18px;
+  }
+
+  .brand-link {
+    font-size: 1.25rem;
+  }
+
+  .btn-nav-outline,
+  .btn-nav-solid {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .hero-titulo {
+    font-size: 2rem;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .btn-hero-primary,
+  .btn-hero-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .hero-stats {
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .slider-card {
+    max-width: 100%;
+  }
+
+  .slider-img-wrapper {
+    height: 200px;
+  }
+}
