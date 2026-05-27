@@ -3,6 +3,7 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { buscarRecetas } from '../../api/recetas.js';
 import { INGREDIENTES_COMUNES } from '../../data/ingredientesComunes.js';
+import { urlImagenReceta } from '../../utils/imagenReceta.js';
 
 const COMBOS = [
   {
@@ -54,9 +55,6 @@ const ingredientesChips = ref([]);
 const resultados = ref([]);
 const cargando = ref(false);
 const errorMsg = ref(null);
-
-const PLACEHOLDER_IMG =
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800&q=80';
 
 /** Etiquetas para tarjetas: API devuelve `ingredientesMostrar` (descripcion o nombre); fallback a nombres. */
 function etiquetasReceta(r) {
@@ -257,7 +255,7 @@ function cargarCombo(combo) {
           <div class="receta-imagen-container">
             <img
               class="receta-imagen"
-              :src="r.imagen || PLACEHOLDER_IMG"
+              :src="urlImagenReceta(r.imagen)"
               :alt="r.nombre"
               loading="lazy"
             />

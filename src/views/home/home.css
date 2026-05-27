@@ -630,6 +630,26 @@
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
 }
 
+.post-card--clickable {
+  cursor: pointer;
+}
+
+.post-card--clickable:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
+}
+
+.feed-estado {
+  text-align: center;
+  color: #666;
+  padding: 24px 16px;
+  margin: 0;
+}
+
+.feed-estado--error {
+  color: #c62828;
+}
+
 /* Header del post */
 .post-header {
   display: flex;

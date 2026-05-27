@@ -13,7 +13,7 @@ const verduras = [
   'espárrago', 'espinaca', 'guisante', 'haba', 'judía verde', 'kale',
   'lechuga', 'nabo', 'pak choi', 'patata', 'pimiento', 'pimiento rojo',
   'porro', 'puerro', 'rábano', 'remolacha', 'repollo', 'ruibarbo',
-  'setas', 'shiitake', 'tomate', 'tomate cherry', 'zanahoria',
+  'setas', 'shiitake', 'tomate', 'tomate cherry', 'zanahoria','papa',
 ];
 
 const frutas = [
