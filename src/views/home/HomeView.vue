@@ -1,104 +1,137 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import './home.css';
 import { useRouter } from 'vue-router';
 import GeneradorIngredientes from '../../components/generador/GeneradorIngredientes.vue';
 import FooterComponent from '../../components/footer/FooterComponent.vue';
+import PlubiReceta from '../../components/publicar-receta/PlubiReceta.vue';
+import { listarRecetas } from '../../api/recetas.js';
+import { urlImagenReceta } from '../../utils/imagenReceta.js';
 
 const router = useRouter();
+const publicarRecetaRef = ref(null);
 
-// Recetas de ejemplo para el feed
-const recetasFeed = ref([
-  {
-    id: 2,
+const recetasFeed = ref([]);
+const cargandoFeed = ref(true);
+const errorFeed = ref(null);
+
+function formatearNombreAutor(username = '') {
+  return username
+    .replace(/^chef_/i, '')
+    .split('_')
+    .filter(Boolean)
+    .map((p) => p.charAt(0).toUpperCase() + p.slice(1))
+    .join(' ') || 'Chef';
+}
+
+function formatearTiempoRelativo(createdAt) {
+  if (!createdAt) return '';
+  const fecha = new Date(createdAt);
+  if (Number.isNaN(fecha.getTime())) return '';
+
+  const diffMs = Date.now() - fecha.getTime();
+  const diffMin = Math.floor(diffMs / 60000);
+  if (diffMin < 1) return 'Ahora';
+  if (diffMin < 60) return `Hace ${diffMin} min`;
+  const diffH = Math.floor(diffMin / 60);
+  if (diffH < 24) return `Hace ${diffH} h`;
+  const diffD = Math.floor(diffH / 24);
+  if (diffD < 7) return `Hace ${diffD} d`;
+  return fecha.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' });
+}
+
+function etiquetasIngredientes(receta) {
+  const mostrar = receta.ingredientesMostrar ?? receta.ingredientes_mostrar;
+  if (mostrar?.length) return mostrar;
+  return receta.ingredientes ?? [];
+}
+
+function mapRecetaAFeed(r) {
+  const autor = r.autor_username ?? 'chef';
+  const nombreAutor = formatearNombreAutor(autor);
+  return {
+    id: r.id,
     usuario: {
-      nombre: 'Chef Carlos',
-      avatar: 'https://ui-avatars.com/api/?name=Chef+Carlos&background=17a2b8&color=fff',
-      tiempo: 'Hace 5 horas'
+      nombre: nombreAutor,
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(nombreAutor)}&background=28a745&color=fff`,
+      tiempo: formatearTiempoRelativo(r.created_at),
     },
     receta: {
-      nombre: 'Tacos al Pastor',
-      imagen: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=800',
-      descripcion: 'Auténticos tacos al pastor marinados con chiles, achiote y especias. Servidos con piña, cilantro y cebolla.',
-      ingredientes: ['carne de cerdo', 'chile guajillo', 'achiote', 'piña', 'tortillas', 'cilantro'],
-      tiempo: '2 hrs',
-      porciones: 6,
-      likes: 256,
-      comentarios: 45,
-      compartidos: 67
-    }
-  },
-  {
-    id: 3,
-    usuario: {
-      nombre: 'Ana Saludable',
-      avatar: 'https://ui-avatars.com/api/?name=Ana+Saludable&background=ffc107&color=000',
-      tiempo: 'Hace 8 horas'
+      nombre: r.nombre ?? r.titulo,
+      imagen: urlImagenReceta(r.imagen),
+      descripcion: r.descripcion ?? '',
+      ingredientes: etiquetasIngredientes(r),
+      tiempo: r.tiempo_prep != null ? `${r.tiempo_prep} min` : '—',
+      porciones: r.porciones ?? r.comensales ?? 1,
+      likes: 0,
+      comentarios: 0,
+      compartidos: 0,
     },
-    receta: {
-      nombre: 'Ensalada de Quinoa',
-      imagen: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800',
-      descripcion: 'Ensalada fresca y nutritiva con quinoa, aguacate, tomate cherry y aderezo de limón. Ideal para un almuerzo ligero.',
-      ingredientes: ['quinoa', 'aguacate', 'tomate cherry', 'pepino', 'limón', 'aceite de oliva'],
-      tiempo: '20 min',
-      porciones: 2,
-      likes: 89,
-      comentarios: 15,
-      compartidos: 8
-    }
-  },
-  {
-    id: 5,
-    usuario: {
-      nombre: 'Pedro Postres',
-      avatar: 'https://ui-avatars.com/api/?name=Pedro+Postres&background=6f42c1&color=fff',
-      tiempo: 'Ayer'
-    },
-    receta: {
-      nombre: 'Flan Napolitano',
-      imagen: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800',
-      descripcion: 'Flan casero con queso crema y caramelo. Suave, cremoso y con el toque perfecto de dulzura.',
-      ingredientes: ['huevos', 'leche condensada', 'leche evaporada', 'queso crema', 'vainilla', 'azúcar'],
-      tiempo: '1 hr',
-      porciones: 8,
-      likes: 198,
-      comentarios: 34,
-      compartidos: 45
-    }
+  };
+}
+
+async function cargarFeedRecetas() {
+  cargandoFeed.value = true;
+  errorFeed.value = null;
+  try {
+    const lista = await listarRecetas(50);
+    recetasFeed.value = lista.map(mapRecetaAFeed);
+  } catch (err) {
+    errorFeed.value =
+      err?.message ||
+      'No se pudieron cargar las recetas. ¿Está corriendo VueBack en el puerto 4000?';
+    recetasFeed.value = [];
+  } finally {
+    cargandoFeed.value = false;
   }
-]);
+}
 
-// Interacciones con posts
-function darLike(recetaId) {
-  const receta = recetasFeed.value.find(r => r.id === recetaId);
+onMounted(() => {
+  cargarFeedRecetas();
+});
+
+function irADetalleReceta(id) {
+  router.push({ name: 'receta', params: { id: String(id) } });
+}
+
+function darLike(recetaId, event) {
+  event?.stopPropagation();
+  const receta = recetasFeed.value.find((r) => r.id === recetaId);
   if (receta) {
     receta.receta.likes++;
   }
 }
 
-function compartirReceta(receta) {
-  // Simular compartir
-  receta.receta.compartidos++;
-  alert(`Receta "${receta.receta.nombre}" compartida!`);
+function compartirReceta(post, event) {
+  event?.stopPropagation();
+  post.receta.compartidos++;
 }
 
-function comentarReceta(receta) {
-  // Aquí se abriría un modal de comentarios
-  alert(`Abrir comentarios para: ${receta.receta.nombre}`);
+function comentarReceta(post, event) {
+  event?.stopPropagation();
+  irADetalleReceta(post.id);
 }
 
 function btnLogout() {
   router.push('/').then(() => {
-    window.location.reload()
-  })
+    window.location.reload();
+  });
 }
 
 function irBusqueda() {
-  router.push('/busqueda')
+  router.push('/busqueda');
 }
 
 function irPerfil() {
-  router.push('/perfil')
+  router.push('/perfil');
+}
+
+function abrirPublicarReceta() {
+  publicarRecetaRef.value?.abrir();
+}
+
+function onRecetaPublicada(receta) {
+  recetasFeed.value.unshift(mapRecetaAFeed(receta));
 }
 </script>
 
@@ -111,6 +144,9 @@ function irPerfil() {
           <strong class="titulo">Chefsito</strong>
         </a>
         <div class="button-group">
+          <button class="btn btn-success my-2 my-sm-0" type="button" @click="abrirPublicarReceta">
+            <i class="fas fa-plus"></i> Publicar receta
+          </button>
           <button class="btn btn-outline-success my-2 my-sm-0" type="button" @click="irBusqueda">
             <i class="fas fa-search"></i> Buscar recetas
           </button>
@@ -136,9 +172,27 @@ function irPerfil() {
         <h4 class="feed-titulo">
           <i class="fas fa-fire"></i> Recetas populares
         </h4>
-        
-        <div class="posts-container">
-          <div v-for="post in recetasFeed" :key="post.id" class="post-card">
+
+        <p v-if="cargandoFeed" class="feed-estado">
+          <i class="fas fa-spinner fa-spin"></i> Cargando recetas…
+        </p>
+        <p v-else-if="errorFeed" class="feed-estado feed-estado--error" role="alert">
+          {{ errorFeed }}
+        </p>
+        <p v-else-if="!recetasFeed.length" class="feed-estado">
+          Aún no hay recetas publicadas. ¡Sé el primero en publicar una!
+        </p>
+
+        <div v-else class="posts-container">
+          <article
+            v-for="post in recetasFeed"
+            :key="post.id"
+            class="post-card post-card--clickable"
+            role="button"
+            tabindex="0"
+            @click="irADetalleReceta(post.id)"
+            @keydown.enter="irADetalleReceta(post.id)"
+          >
             <!-- Header del post -->
             <div class="post-header">
               <img :src="post.usuario.avatar" :alt="post.usuario.nombre" class="post-avatar" />
@@ -146,7 +200,7 @@ function irPerfil() {
                 <span class="post-username">{{ post.usuario.nombre }}</span>
                 <span class="post-tiempo">{{ post.usuario.tiempo }}</span>
               </div>
-              <button class="post-options">
+              <button type="button" class="post-options" @click.stop>
                 <i class="fas fa-ellipsis-h"></i>
               </button>
             </div>
@@ -159,17 +213,17 @@ function irPerfil() {
             <!-- Acciones del post -->
             <div class="post-acciones">
               <div class="acciones-left">
-                <button @click="darLike(post.id)" class="btn-accion">
+                <button type="button" class="btn-accion" @click="darLike(post.id, $event)">
                   <i class="far fa-heart"></i>
                 </button>
-                <button @click="comentarReceta(post)" class="btn-accion">
+                <button type="button" class="btn-accion" @click="comentarReceta(post, $event)">
                   <i class="far fa-comment"></i>
                 </button>
-                <button @click="compartirReceta(post)" class="btn-accion">
+                <button type="button" class="btn-accion" @click="compartirReceta(post, $event)">
                   <i class="far fa-paper-plane"></i>
                 </button>
               </div>
-              <button class="btn-accion bookmark">
+              <button type="button" class="btn-accion bookmark" @click.stop>
                 <i class="far fa-bookmark"></i>
               </button>
             </div>
@@ -189,9 +243,9 @@ function irPerfil() {
             </div>
 
             <!-- Ingredientes tags -->
-            <div class="post-ingredientes">
-              <span 
-                v-for="(ing, idx) in post.receta.ingredientes.slice(0, 5)" 
+            <div v-if="post.receta.ingredientes.length" class="post-ingredientes">
+              <span
+                v-for="(ing, idx) in post.receta.ingredientes.slice(0, 5)"
                 :key="idx"
                 class="ingrediente-tag"
               >
@@ -207,16 +261,18 @@ function irPerfil() {
 
             <!-- Comentarios -->
             <div class="post-comentarios-link">
-              <button @click="comentarReceta(post)">
-                Ver los {{ post.receta.comentarios }} comentarios
+              <button type="button" @click="comentarReceta(post, $event)">
+                Ver receta completa
               </button>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </div>
 
     <FooterComponent />
+
+    <PlubiReceta ref="publicarRecetaRef" :autor-id="1" @publicada="onRecetaPublicada" />
   </div>
 </template>
 

@@ -1,5 +1,24 @@
 import { graphqlRequest } from './graphql.js';
 
+const LISTAR_RECETAS = `
+  query ListarRecetas($limite: Int) {
+    listarRecetas(limite: $limite) {
+      id
+      nombre
+      titulo
+      descripcion
+      ingredientes
+      ingredientesMostrar
+      tiempo_prep
+      porciones
+      comensales
+      imagen
+      autor_username
+      created_at
+    }
+  }
+`;
+
 const BUSCAR_RECETAS = `
   query BuscarRecetas($ingredientes: [String]) {
     buscarRecetas(ingredientes: $ingredientes) {
@@ -33,6 +52,14 @@ const RECETA_DETALLE = `
     }
   }
 `;
+
+/**
+ * @param {number} [limite]
+ */
+export async function listarRecetas(limite) {
+  const data = await graphqlRequest(LISTAR_RECETAS, { limite });
+  return data.listarRecetas ?? [];
+}
 
 /**
  * @param {string[]} ingredientes

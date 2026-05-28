@@ -4,6 +4,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { obtenerReceta } from '../../api/recetas.js';
 import './receta.css';
 import FooterComponent from '../../components/footer/FooterComponent.vue';
+import { urlImagenReceta } from '../../utils/imagenReceta.js';
 
 const route = useRoute();
 const router = useRouter();
@@ -11,9 +12,6 @@ const router = useRouter();
 const receta = ref(null);
 const cargando = ref(true);
 const errorMsg = ref(null);
-
-const PLACEHOLDER_IMG =
-  'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=1200&q=80';
 
 async function cargar() {
   cargando.value = true;
@@ -132,7 +130,7 @@ const bloquesConsejos = computed(() => {
           <div class="receta-hero-img-wrap">
             <img
               class="receta-hero-img"
-              :src="receta.imagen || PLACEHOLDER_IMG"
+              :src="urlImagenReceta(receta.imagen)"
               :alt="receta.nombre"
             />
           </div>

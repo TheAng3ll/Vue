@@ -1,14 +1,10 @@
 /**
  * Lista amplia de ingredientes comunes (ES) para autocomplete del generador.
-<<<<<<< HEAD
- * Unión de categorías; deduplicada y ordenada alfabéticamente.
-=======
  * Unión de categorías + términos alineados al catálogo sembrado (recetas elaboradas);
  * deduplicada y ordenada alfabéticamente.
  *
- * El match en API (`buscarRecetas`) es por igualdad exacta del nombre normalizado (minúsculas,
- * sin acentos); el chip debe coincidir con `ingredientes.nombre` en BD, no con prefijos.
->>>>>>> 2a31594 (Fea: ajustes en  back en vistas, nueva vistas)
+ * La búsqueda en API (`buscarRecetas`) acepta prefijos en límite de palabra respecto a
+ * los nombres en BD: p. ej. el chip "calabaza" cuenta para el ingrediente "calabaza asada".
  */
 const verduras = [
   'acelga', 'ajo', 'alcachofa', 'apio', 'berenjena', 'boniato', 'broccoli',
@@ -17,7 +13,7 @@ const verduras = [
   'espárrago', 'espinaca', 'guisante', 'haba', 'judía verde', 'kale',
   'lechuga', 'nabo', 'pak choi', 'patata', 'pimiento', 'pimiento rojo',
   'porro', 'puerro', 'rábano', 'remolacha', 'repollo', 'ruibarbo',
-  'setas', 'shiitake', 'tomate', 'tomate cherry', 'zanahoria','Tomates','Cebolla morada',
+  'setas', 'shiitake', 'tomate', 'tomate cherry', 'zanahoria','papa',
 ];
 
 const frutas = [
@@ -26,7 +22,7 @@ const frutas = [
   'grapefruit', 'guayaba', 'higo', 'kiwi', 'lima', 'limón', 'mandarina',
   'mango', 'manzana', 'maracuyá', 'melocotón', 'melón', 'membrillo',
   'mora', 'naranja', 'papaya', 'pera', 'piña', 'plátano', 'pomelo',
-  'sandía', 'toronja', 'uva','Pepinos',
+  'sandía', 'toronja', 'uva',
 ];
 
 const hierbas = [
@@ -35,9 +31,12 @@ const hierbas = [
 ];
 
 const lácteosHuevos = [
- 'huevos', 'leche', 'leche condensada',
-  'leche evaporada', 'mantequilla', 'margarina','pan', 'queso', 
- 'Queso', 'yogur', 'Panela',
+  'burrata', 'cheddar', 'crema agria', 'crema de leche', 'cuajada',
+  'emmental', 'gruyère', 'huevos', 'kefir', 'leche', 'leche condensada',
+  'leche evaporada', 'mantequilla', 'margarina', 'mozzarella', 'nata',
+  'parmesano', 'queso', 'queso azul', 'queso crema', 'queso feta',
+  'queso fresco', 'queso manchego', 'queso rallado', 'requesón',
+  'ricotta', 'yogur', 'yogur griego',
 ];
 
 const carnes = [
@@ -56,13 +55,13 @@ const carnes = [
 const granosLegumbres = [
   'almendra', 'amaranto', 'arroz', 'arroz basmati', 'arroz integral',
   'avena', 'azuki', 'cacahuete', 'cacahuete tostado', 'castaña',
-  'chia', 'cuscús', 'espelta', 'farro', 'Garbanzo', 'girasol',
+  'chia', 'cuscús', 'espelta', 'farro', 'garbanzo', 'girasol',
   'harina', 'harina de trigo', 'lenteja', 'lenteja roja', 'lentejas',
   'linaza', 'maíz', 'maíz palomitas', 'maíz tierno', 'mijo',
   'nueces', 'pan rallado', 'pasta', 'pasta integral', 'patata',
   'pipas', 'pistacho', 'polenta', 'quinoa', 'semillas', 'semillas de amapola',
   'semillas de calabaza', 'semillas de girasol', 'semillas de lino',
-  'sesamo', 'soja', 'trigo sarraceno', 'triticum', 
+  'sesamo', 'soja', 'trigo sarraceno', 'triticum',
 ];
 
 const condimentos = [
@@ -73,7 +72,7 @@ const condimentos = [
   'clavo', 'comino', 'curry', 'curry en polvo', 'extracto de vainilla',
   'harissa', 'honey', 'miel', 'mostaza', 'mostaza dijon', 'nutella',
   'panko', 'pasta de curry', 'pasta de tomate', 'pimentón', 'pimienta',
-  'pimienta negra','oregano', 'romesco', 'sal', 'sal marina', 'salsa bbq',
+  'pimienta negra', 'romesco', 'sal', 'sal marina', 'salsa bbq',
   'salsa de soja', 'salsa inglesa', 'salsa picante', 'tabasco',
   'tomate triturado', 'turmeric', 'curcuma', 'vinagre', 'vinagre balsámico',
   'vinagre de manzana', 'wasabi', 'zaatar',
@@ -86,10 +85,7 @@ const misc = [
   'levadura fresca', 'levadura química', 'levadura seca', 'palitos',
   'pasas', 'pasas de corinto', 'pellets', 'pipoca', 'sal marina fina',
   'sirope', 'tahini', 'tapioca', 'té', 'tofu', 'tofu firme',
-<<<<<<< HEAD
-  'tofu sedoso',   'vino blanco', 'vino de arroz', 'vino tinto',
-=======
-  'tofu sedoso', 'vino blanco', 'vino de arroz', 'vino tinto','pure de tomate',
+  'tofu sedoso', 'vino blanco', 'vino de arroz', 'vino tinto',
 ];
 
 /**
@@ -117,7 +113,6 @@ const catalogoRecetasElaboradas = [
   // Filas fijas del seed (nombres en tabla ingredientes)
   'aceite de oliva v.e.', 'chalota', 'vino blanco seco', 'miel de caña', 'caldo colado',
   'nata para cocinar', 'yema de huevo', 'guarnicion temporada', 'harina 00',
->>>>>>> 2a31594 (Fea: ajustes en  back en vistas, nueva vistas)
 ];
 
 export const INGREDIENTES_COMUNES = [...new Set([
@@ -129,4 +124,5 @@ export const INGREDIENTES_COMUNES = [...new Set([
   ...granosLegumbres,
   ...condimentos,
   ...misc,
+  ...catalogoRecetasElaboradas,
 ])].sort((a, b) => a.localeCompare('es'));
