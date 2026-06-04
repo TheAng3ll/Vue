@@ -9,6 +9,9 @@ import FooterComponent from '../../components/footer/FooterComponent.vue';
 import PerfilConfig from '../../components/perfil-config/PerfilConfig.vue';
 import PlubiReceta from '../../components/publicar-receta/PlubiReceta.vue';
 import { urlImagenReceta } from '../../utils/imagenReceta.js';
+import { obtenerUsuarioInfo } from '../../api/usuarioInfo.js';
+import { getAuthUser, clearAuthSession, updateAuthUser } from '../../api/session.js';
+
 
 const router = useRouter();
 const modalRecetaEl = ref(null);
@@ -47,14 +50,16 @@ const comentariosDemoIniciales = [
 ];
 
 const guardando = ref(false);
+const cargandoUsuario = ref(true);
+const errorUsuario = ref(null);
 
 const usuario = ref({
-  nombre: 'Chef Demo',
-  email: 'chef.demo@chefsito.app',
-  bio: 'Me encanta cocinar con ingredientes de temporada y compartir recetas rápidas para la semana.',
-  fotoPerfil:
-    'https://ui-avatars.com/api/?name=Chef+Demo&background=28a745&color=fff&size=256',
-  miembroDesde: 'Marzo 2026',
+  id: null,
+  nombre: '',
+  email: '',
+  bio: '',
+  fotoPerfil: '',
+  miembroDesde: '',
 });
 
 const stats = ref({
@@ -101,10 +106,56 @@ const misRecetas = ref([
   },
 ]);
 
-onMounted(() => {
+function avatarDesdeUsername(username = '') {
+  const name = username.trim() || 'Chef';
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=28a745&color=fff&size=256`;
+}
+
+function formatearMiembroDesde(createdAt) {
+  if (!createdAt) return '—';
+  const fecha = new Date(createdAt);
+  if (Number.isNaN(fecha.getTime())) return '—';
+  const texto = fecha.toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
+  return texto.charAt(0).toUpperCase() + texto.slice(1);
+}
+
+function mapUsuarioApi(data) {
+  return {
+    id: data.id,
+    nombre: data.username ?? '',
+    email: data.email ?? '',
+    bio: data.biografia?.trim() || 'Sin biografía por ahora.',
+    fotoPerfil: avatarDesdeUsername(data.username),
+    miembroDesde: formatearMiembroDesde(data.created_at),
+  };
+}
+
+async function cargarPerfil() {
+  cargandoUsuario.value = true;
+  errorUsuario.value = null;
+
+  const auth = getAuthUser();
+  if (!auth?.id) {
+    cargandoUsuario.value = false;
+    router.push('/login');
+    return;
+  }
+
+  try {
+    const data = await obtenerUsuarioInfo(auth.id);
+    usuario.value = mapUsuarioApi(data);
+  } catch (err) {
+    errorUsuario.value = err?.message || 'No se pudo cargar tu perfil';
+  } finally {
+    cargandoUsuario.value = false;
+  }
+}
+
+onMounted(async () => {
   if (modalRecetaEl.value) {
     modalReceta = new Modal(modalRecetaEl.value, { focus: true });
   }
+  await cargarPerfil();
 });
 
 onBeforeUnmount(() => {
@@ -157,9 +208,8 @@ function irBusqueda() {
 }
 
 function cerrarSesion() {
-  router.push('/').then(() => {
-    window.location.reload();
-  });
+  clearAuthSession();
+  router.push('/login');
 }
 function abrirConfiguracion() {
   perfilConfigRef.value?.abrir();
@@ -181,8 +231,13 @@ function onRecetaPublicada(receta) {
     ingredientes: receta.ingredientes ?? [],
   });
 }
-function onGuardarConfig(datos) {
-  usuario.value = { ...usuario.value, ...datos };
+async function onGuardarConfig(actualizado) {
+  usuario.value = mapUsuarioApi(actualizado);
+  updateAuthUser({
+    id: actualizado.id,
+    username: actualizado.username,
+    email: actualizado.email,
+  });
 }
 
 async function guardarPerfil() {
@@ -270,7 +325,12 @@ async function abrirReceta(r) {
     </nav>
 
     <div class="perfil-main">
-      <section class="perfil-hero">
+      <p v-if="cargandoUsuario" class="perfil-estado-msg">Cargando perfil…</p>
+      <p v-else-if="errorUsuario" class="perfil-estado-msg perfil-estado-msg--error">
+        {{ errorUsuario }}
+      </p>
+
+      <section v-else class="perfil-hero">
         <button
           type="button"
           class="perfil-config-btn"
@@ -321,7 +381,7 @@ async function abrirReceta(r) {
         </div>
       </section>
 
-      <section class="perfil-card">
+      <section v-if="!cargandoUsuario && !errorUsuario" class="perfil-card">
         <div class="perfil-card-header-row">
           <h2 class="perfil-card-title">
             <i class="fas fa-bookmark"></i>
@@ -361,7 +421,7 @@ async function abrirReceta(r) {
       @cerrar-sesion="cerrarSesion"
     />
 
-    <PlubiReceta ref="publicarRecetaRef" :autor-id="1" @publicada="onRecetaPublicada" />
+    <PlubiReceta ref="publicarRecetaRef" :autor-id="usuario.id ?? 1" @publicada="onRecetaPublicada" />
 
     <div
       ref="modalRecetaEl"

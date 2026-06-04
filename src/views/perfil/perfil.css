@@ -6,6 +6,23 @@
   padding: 20px;
 }
 
+.perfil-estado-msg {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.perfil-estado-msg--error {
+  color: #c62828;
+}
+
+.perfil-bio:empty::before,
+.perfil-bio.perfil-bio--vacia {
+  color: #999;
+  font-style: italic;
+}
+
 .perfil-hero {
   position: relative;
   background: #fff;

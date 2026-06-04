@@ -1,12 +1,14 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { Modal } from 'bootstrap';
+import { actualizarUsuario } from '../../api/usuarioInfo.js';
 import './perfil-config.css';
 
 const props = defineProps({
   usuario: {
     type: Object,
     default: () => ({
+      id: null,
       nombre: '',
       email: '',
       bio: '',
@@ -73,16 +75,27 @@ function cerrar() {
 }
 
 async function guardarCambios() {
+  if (!props.usuario.id) {
+    alert('No se pudo identificar tu usuario');
+    return;
+  }
+
   guardando.value = true;
-  await new Promise((r) => setTimeout(r, 600));
 
-  emit('guardar', {
-    ...formulario.value,
-    preferencias: { ...preferencias.value },
-  });
-
-  guardando.value = false;
-  cerrar();
+  try {
+    const actualizado = await actualizarUsuario(
+      props.usuario.id,
+      formulario.value.nombre,
+      formulario.value.email,
+      formulario.value.bio,
+    );
+    emit('guardar', actualizado);
+    cerrar();
+  } catch (err) {
+    alert(err.message || 'No se pudo guardar el perfil');
+  } finally {
+    guardando.value = false;
+  }
 }
 
 function solicitarCambioFoto() {

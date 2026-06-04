@@ -6,6 +6,7 @@ import GeneradorIngredientes from '../../components/generador/GeneradorIngredien
 import FooterComponent from '../../components/footer/FooterComponent.vue';
 import PlubiReceta from '../../components/publicar-receta/PlubiReceta.vue';
 import { listarRecetas } from '../../api/recetas.js';
+import { clearAuthSession } from '../../api/session.js';
 import { urlImagenReceta } from '../../utils/imagenReceta.js';
 
 const router = useRouter();
@@ -113,9 +114,8 @@ function comentarReceta(post, event) {
 }
 
 function btnLogout() {
-  router.push('/').then(() => {
-    window.location.reload();
-  });
+  clearAuthSession();
+  router.push('/login');
 }
 
 function irBusqueda() {

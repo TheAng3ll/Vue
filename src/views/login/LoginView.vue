@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import './login.css';
 import { useRouter } from 'vue-router';
+import { iniciarSesion } from '../../api/auth.js';
 
 const router = useRouter();
 
@@ -30,13 +31,14 @@ async function btnEnter() {
 
   isLoading.value = true;
 
-  // Simular llamada al backend
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  isLoading.value = false;
-  router.push('/home').then(() => {
-    window.location.reload();
-  });
+  try {
+    await iniciarSesion(email.value, password.value, rememberMe.value);
+    router.push('/home');
+  } catch (error) {
+    alert(error.message || 'No se pudo iniciar sesión');
+  } finally {
+    isLoading.value = false;
+  }
 }
 
 function goToHome() {
