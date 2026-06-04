@@ -2,11 +2,11 @@
 import { ref, computed } from 'vue';
 import './registro.css';
 import { useRouter } from 'vue-router';
-
+import { registrarUsuario } from '../../api/auth.js';
 const router = useRouter();
 
 // Form data
-const nombre = ref('');
+const username = ref('');
 const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
@@ -21,7 +21,7 @@ const passwordsMatch = computed(() => {
 });
 
 const isFormValid = computed(() => {
-  return nombre.value &&
+  return username.value &&
          email.value &&
          password.value &&
          confirmPassword.value &&
@@ -63,14 +63,21 @@ async function btnRegistrar() {
 
   isLoading.value = true;
 
-  // Simular llamada al backend
-  await new Promise(resolve => setTimeout(resolve, 1500));
-
-  isLoading.value = false;
-  alert('¡Cuenta creada exitosamente!');
-  router.push('/home').then(() => {
-    window.location.reload();
-  });
+  try {
+    await registrarUsuario(
+      username.value.trim(),
+      email.value.trim(),
+      password.value
+    );
+    alert('¡Cuenta creada exitosamente!');
+    router.push('/login').then(() => {
+      window.location.reload();
+    });
+  } catch (error) {
+    alert(error.message || 'No se pudo crear la cuenta');
+  } finally {
+    isLoading.value = false;
+  }
 }
 </script>
 
@@ -106,7 +113,7 @@ async function btnRegistrar() {
               <input
                 type="text"
                 id="nombre"
-                v-model="nombre"
+                v-model="username"
                 class="form-input"
                 placeholder="Tu nombre"
                 required

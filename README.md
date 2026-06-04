@@ -1,76 +1,140 @@
-# Chefsito (Vue)
+# Chefsito — Frontend (VueFront)
 
-Proyecto front **Chefsito**: interfaz en **Vue 3** con **Vite** y **Vue Router**, pensada para practicar y mostrar un flujo sencillo de inicio, acceso y registro, con una estética tranquila (paleta crema / salvia) en las vistas principales.
+Interfaz web de **Chefsito** en **Vue 3** + **Vite**: landing, autenticación (UI), home con feed de recetas, búsqueda por ingredientes, detalle de receta, publicación de recetas e imágenes, y perfil.
 
 ## Requisitos
 
-- **Node.js** 18 o superior (recomendado LTS)
-- **npm** 9+ (viene con Node)
+- **Node.js** 18+ (recomendado LTS)
+- **npm** 9+
+- **VueBack** en ejecución (`http://localhost:4000`) y PostgreSQL con datos (ver `../VueBack/README.md`)
 
-## Instalación y uso
+## Instalación
+
+Desde la carpeta del frontend:
 
 ```bash
-git clone https://github.com/TheAng3ll/Vue.git
-cd Vue
+cd VueFront
 npm install
 npm run dev
 ```
 
-Abre en el navegador la URL que muestra Vite (por defecto **http://localhost:5173**).
+Abre **http://localhost:5173** (puerto por defecto de Vite).
+
+### Desarrollo con el backend
+
+Vite hace proxy de las peticiones al API:
+
+| Ruta en el front | Destino |
+|------------------|---------|
+| `/graphql` | `http://localhost:4000/graphql` |
+| `/api` | `http://localhost:4000/api` |
+
+Levanta primero el backend:
+
+```bash
+cd ../VueBack
+npm run dev
+```
+
+Si cambias queries o mutaciones en GraphQL y el front muestra errores del tipo *"Cannot query field …"*, reinicia VueBack (suele quedar un proceso viejo en el puerto 4000).
 
 ## Scripts
 
-| Comando        | Descripción                          |
-|----------------|--------------------------------------|
-| `npm run dev`  | Servidor de desarrollo con hot reload |
-| `npm run build`| Compilación para producción (`dist/`) |
-| `npm run preview` | Sirve localmente el build generado |
+| Comando | Descripción |
+|---------|-------------|
+| `npm run dev` | Servidor de desarrollo con HMR |
+| `npm run build` | Build de producción en `dist/` |
+| `npm run preview` | Sirve localmente el build |
+
+### Producción
+
+Define la URL del GraphQL si no usas el mismo origen:
+
+```env
+VITE_GRAPHQL_URL=https://tu-api.ejemplo.com/graphql
+```
 
 ## Rutas
 
-| Ruta          | Vista        |
-|---------------|--------------|
-| `/`           | Inicio       |
-| `/login`      | Iniciar sesión |
-| `/registrar`  | Crear cuenta |
+| Ruta | Vista | Descripción |
+|------|-------|-------------|
+| `/` | `InicioView` | Landing y presentación |
+| `/home` | `HomeView` | Generador de ingredientes + feed de recetas (API) |
+| `/busqueda` | `BusquedaView` | Búsqueda por ingredientes |
+| `/receta/:id` | `RecetaView` | Detalle de una receta |
+| `/perfil` | `PerfilView` | Perfil y recetas publicadas (UI demo + modal) |
+| `/login` | `LoginView` | Inicio de sesión (UI) |
+| `/registrar` | `RegistroView` | Registro (UI) |
 
-La configuración está en `src/router/index.js`.
+Configuración: `src/router/index.js`.
 
-## Estructura del código
+## Funcionalidades principales
+
+- **Feed en Home**: lista recetas reales con `listarRecetas`; clic en la tarjeta abre `/receta/:id`.
+- **Generador** (`GeneradorIngredientes`): chips de ingredientes, sugerencias locales y búsqueda con `buscarRecetas`.
+- **Publicar receta** (`PlubiReceta`): modal con ingredientes (catálogo + nuevos), foto y mutación `publicarReceta`.
+- **Imágenes de receta**: subida vía `POST /api/imagenes/receta` y URLs normalizadas con `urlImagenReceta()`.
+- **Detalle**: instrucciones, consejos, ingredientes y match % cuando aplica.
+
+## Capa API (`src/api/`)
+
+Cliente GraphQL central en `graphql.js` (`graphqlRequest`).
+
+| Módulo | Uso |
+|--------|-----|
+| `recetas.js` | `listarRecetas`, `buscarRecetas`, `obtenerReceta` |
+| `publicaReceta.js` | `publicarReceta` |
+| `buscarIngredientes.js` | Autocompletado de ingredientes en el catálogo |
+| `subirImagenReceta.js` | Subida de imagen al publicar |
+
+## Estructura del proyecto
 
 ```
-src/
-├── assets/          # Imágenes y recursos estáticos
-├── components/      # Pantallas por carpeta (inicio, login, registro)
-│   ├── inicio_component/
-│   ├── login_component/
-│   └── registro_component/
-├── router/
-│   └── index.js     # Rutas de la aplicación
-├── App.vue          # Raíz: `<router-view />`
-├── main.js          # Entrada: Vue, router, estilos globales
-└── style.css        # Estilos globales (si aplica)
+VueFront/
+├── index.html              # Font Awesome (CDN), título Chefsito
+├── vite.config.js          # Proxy /graphql y /api
+├── src/
+│   ├── api/                # Cliente GraphQL y REST de imágenes
+│   ├── components/
+│   │   ├── generador/      # GeneradorIngredientes
+│   │   ├── publicar-receta/# PlubiReceta (modal publicar)
+│   │   ├── perfil-config/  # Ajustes de perfil (UI)
+│   │   └── footer/
+│   ├── data/
+│   │   └── ingredientesComunes.js  # Sugerencias locales al escribir
+│   ├── utils/
+│   │   └── imagenReceta.js # URLs de imágenes de recetas
+│   ├── views/
+│   │   ├── inicio/
+│   │   ├── home/
+│   │   ├── busqueda/
+│   │   ├── receta/
+│   │   ├── perfil/
+│   │   ├── login/
+│   │   └── registro/
+│   ├── router/
+│   ├── plugins/vuetify.js
+│   ├── App.vue
+│   └── main.js
+└── package.json
 ```
 
-En ramas más recientes el proyecto puede usar **`src/views/`** para las pantallas enlazadas al router y **`src/components/`** solo para piezas reutilizables; el `README` y las importaciones del router deben coincidir con tu rama.
+Las pantallas viven en **`views/`**; **`components/`** agrupa piezas reutilizables.
 
 ## Stack
 
-- [Vue 3](https://vuejs.org/) (Composition API, `<script setup>`)
-- [Vite](https://vite.dev/)
+- [Vue 3](https://vuejs.org/) — Composition API, `<script setup>`
+- [Vite 6](https://vite.dev/)
 - [Vue Router 4](https://router.vuejs.org/)
-- [Bootstrap 5](https://getbootstrap.com/) (CSS/JS desde `main.js`)
+- [Bootstrap 5](https://getbootstrap.com/)
+- [Vuetify 4](https://vuetifyjs.com/) (plugin en `main.js`)
+- [Font Awesome 6](https://fontawesome.com/) (CDN en `index.html`)
+- Fetch nativo hacia GraphQL (sin Apollo)
 
-## Alias de rutas (opcional)
+## Identidad visual
 
-Si en `vite.config.js` defines el alias `@` → `./src`, puedes importar así:
-
-```js
-import algo from '@/assets/imagen.png'
-```
-
-En ese caso conviene un `jsconfig.json` con `"paths": { "@/*": ["src/*"] }` para que el editor resuelva bien las rutas.
+Paleta principal: fondos claros con degradado verde suave (`#f5f7fa` → `#e8f5e9`), acento `#28a745` / `#2e7d32`, tarjetas blancas con bordes redondeados y sombras suaves. Estilos por vista en carpetas `*.css` junto a cada `*View.vue`.
 
 ## Licencia
 
-Repositorio **privado** (`"private": true` en `package.json`). Uso y licencia según acuerdo del autor.
+Proyecto **privado** (`"private": true` en `package.json`). Uso según acuerdo del autor.

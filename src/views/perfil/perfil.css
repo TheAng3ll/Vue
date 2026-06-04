@@ -6,7 +6,25 @@
   padding: 20px;
 }
 
+.perfil-estado-msg {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.perfil-estado-msg--error {
+  color: #c62828;
+}
+
+.perfil-bio:empty::before,
+.perfil-bio.perfil-bio--vacia {
+  color: #999;
+  font-style: italic;
+}
+
 .perfil-hero {
+  position: relative;
   background: #fff;
   border-radius: 24px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -31,6 +49,39 @@
   flex-wrap: wrap;
   align-items: flex-start;
   gap: 20px;
+  padding-right: 44px;
+}
+
+.perfil-config-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid #c8e6c9;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #fafdfb 0%, #fff 100%);
+  color: #2e7d32;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+.perfil-config-btn:hover {
+  color: #28a745;
+  border-color: #28a745;
+  box-shadow: 0 6px 16px rgba(40, 167, 69, 0.18);
+  transform: rotate(45deg);
+}
+
+.perfil-config-btn:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 2px;
 }
 
 .perfil-avatar-wrap {
@@ -155,6 +206,19 @@
 
 .perfil-card-title i {
   color: #ffc107;
+}
+
+.perfil-card-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.perfil-card-header-row .perfil-card-title {
+  margin-bottom: 0;
 }
 
 .perfil-field {
@@ -329,4 +393,257 @@
 .perfil-receta-meta i {
   margin-right: 4px;
   color: #ffc107;
+}
+
+.perfil-receta-modal .modal-dialog {
+  max-height: calc(100vh - 2rem);
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.perfil-receta-modal .modal-content {
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 2rem);
+}
+
+.perfil-receta-modal .modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.perfil-modal-estado {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #666;
+}
+
+.perfil-modal-aviso {
+  margin-bottom: 12px;
+}
+
+.perfil-modal-post.post-card {
+  margin: 0;
+  box-shadow: none;
+}
+
+.perfil-modal-post.post-card:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.perfil-modal-instrucciones {
+  padding: 0 16px 16px;
+  border-top: 1px solid #eee;
+  margin-top: 8px;
+}
+
+.perfil-modal-instrucciones h6 {
+  font-weight: 700;
+  color: #2e7d32;
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perfil-modal-instrucciones p {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.55;
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.perfil-modal-comentarios-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: 0;
+  border-top: 1px solid #e0e0e0;
+  background: linear-gradient(180deg, #fafcfb 0%, #f3f6f4 100%);
+  border-radius: 0 0 16px 16px;
+}
+
+.perfil-modal-footer-titulo,
+.perfil-modal-comentarios-toggle {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perfil-modal-footer-titulo i,
+.perfil-modal-comentarios-toggle > i:first-child {
+  color: #28a745;
+}
+
+.perfil-modal-footer-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #e8f5e9;
+  color: #1b5e20;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.perfil-modal-comentarios-toggle-wrap {
+  padding: 12px 16px 14px;
+  border-top: 1px solid #eee;
+  margin-top: 0;
+  background: #fff;
+}
+
+a.perfil-modal-comentarios-toggle {
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+a.perfil-modal-comentarios-toggle:hover {
+  color: #1b5e20;
+}
+
+a.perfil-modal-comentarios-toggle:focus-visible {
+  outline: 2px solid #28a745;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+.perfil-modal-comentarios-chevron {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: #66bb6a;
+  transition: transform 0.25s ease;
+}
+
+a.perfil-modal-comentarios-toggle.is-open .perfil-modal-comentarios-chevron {
+  transform: rotate(180deg);
+}
+
+.perfil-modal-comentarios {
+  flex: 0 0 auto;
+  max-height: min(240px, 35vh);
+  overflow-y: auto;
+  padding: 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.perfil-modal-comentarios-vacio {
+  margin: auto 0;
+  text-align: center;
+  color: #888;
+  font-size: 0.88rem;
+  padding: 24px 12px;
+}
+
+.perfil-modal-comentario {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.perfil-modal-comentario-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid #e8f5e9;
+}
+
+.perfil-modal-comentario-body {
+  flex: 1;
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #e8f5e9;
+  border-radius: 14px;
+  padding: 10px 12px;
+}
+
+.perfil-modal-comentario-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  margin-bottom: 4px;
+}
+
+.perfil-modal-comentario-meta strong {
+  font-size: 0.84rem;
+  color: #1a1a1a;
+}
+
+.perfil-modal-comentario-meta span {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.perfil-modal-comentario-body p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #444;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.perfil-modal-comentario-form {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px 18px;
+  border-top: 1px solid #e8ece9;
+  background: #fff;
+}
+
+.perfil-modal-comentario-form .form-control {
+  border-radius: 12px;
+  border: 2px solid #e0e0e0;
+  padding: 10px 14px;
+  font-size: 0.92rem;
+}
+
+.perfil-modal-comentario-form .form-control:focus {
+  border-color: #28a745;
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.15);
+}
+
+.perfil-modal-comentario-form .btn-success {
+  flex-shrink: 0;
+  border-radius: 12px;
+  font-weight: 700;
+  padding: 10px 18px;
+}
+
+@media (max-width: 576px) {
+  .perfil-modal-comentarios {
+    max-height: min(200px, 32vh);
+  }
+
+  .perfil-modal-comentario-form {
+    flex-wrap: wrap;
+  }
+
+  .perfil-modal-comentario-form .form-control {
+    width: 100%;
+  }
+
+  .perfil-modal-comentario-form .btn-success {
+    width: 100%;
+  }
 }
